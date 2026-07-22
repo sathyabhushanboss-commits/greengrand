@@ -1,7 +1,13 @@
 "use client";
 
 import { ShirtMark } from "./ShirtMark";
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 import { Playfair_Display, Inter, Cormorant_Garamond, Cinzel } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
 
@@ -30,84 +36,52 @@ const inter = Inter({
   display: "swap",
 });
 
-// Banner media — mix of images and video.
-// To use a real video, drop an .mp4 into /public/videos and point videoUrl at it
-// (e.g. "/videos/greengrand-loop.mp4"), or swap in a hosted CDN URL.
+// Banner media — local images only, 1G.jpeg through 10G.jpeg from /public
 type BannerItem = {
   id: number;
-  type: "image" | "video";
+  type: "image";
   url: string;
-  videoUrl?: string;
-  poster?: string;
   title: string;
-  description: string;
 };
 
 const bannerImages: BannerItem[] = [
-  {
-    id: 1,
-    type: "video",
-    url: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=1600&q=80",
-    videoUrl: "/videos/greengrand-loop.mp4",
-    poster: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=1600&q=80",
-    title: "Autumn Collection",
-    description: "Warm tones for cooler days",
-  },
-  {
-    id: 2,
-    type: "image",
-    url: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=1600&q=80",
-    title: "Linen Series",
-    description: "Breathable elegance",
-  },
-  {
-    id: 3,
-    type: "image",
-    url: "https://images.unsplash.com/photo-1583744946564-b52ac1c389c8?w=1600&q=80",
-    title: "Oxford Collection",
-    description: "Timeless craftsmanship",
-  },
-  {
-    id: 4,
-    type: "image",
-    url: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=1600&q=80",
-    title: "Premium Finish",
-    description: "Details that matter",
-  },
-  {
-    id: 5,
-    type: "image",
-    url: "https://images.unsplash.com/photo-1618354691551-44de113f0164?w=1600&q=80",
-    title: "Summer Run",
-    description: "Lightweight sophistication",
-  },
+  { id: 1, type: "image", url: "/1G.jpeg", title: "Look 01" },
+  { id: 2, type: "image", url: "/2G.jpeg", title: "Look 02" },
+  { id: 3, type: "image", url: "/3G.jpeg", title: "Look 03" },
+  { id: 4, type: "image", url: "/4G.jpeg", title: "Look 04" },
+  { id: 5, type: "image", url: "/5G.jpeg", title: "Look 05" },
+  { id: 6, type: "image", url: "/6G.jpeg", title: "Look 06" },
+  { id: 7, type: "image", url: "/7G.jpeg", title: "Look 07" },
+  { id: 8, type: "image", url: "/8G.jpeg", title: "Look 08" },
+  { id: 9, type: "image", url: "/9G.jpeg", title: "Look 09" },
+  { id: 10, type: "image", url: "/10G.jpeg", title: "Look 10" },
 ];
 
 // Stagger animation config
-export const containerVariants = {
+export const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
       staggerChildren: 0.12,
       delayChildren: 0.2,
-      ease: [0.25, 0.1, 0.15, 1],
+      ease: "easeInOut",
     },
   },
 };
 
-export const itemVariants = {
+export const itemVariants: Variants = {
   hidden: { opacity: 0, y: 25, filter: "blur(6px)" },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.9, ease: [0.25, 0.1, 0.15, 1] },
+    transition: { duration: 0.9, ease: "easeOut" },
   },
 };
 
 // Letter-by-letter reveal for the gold headline text
-const letterContainerVariants = {
+const letterContainerVariants: Variants = {
   hidden: {},
   visible: {
     transition: {
@@ -117,37 +91,47 @@ const letterContainerVariants = {
   },
 };
 
-const letterVariants = {
+const letterVariants: Variants = {
   hidden: { opacity: 0, y: 14, rotateX: -40 },
   visible: {
     opacity: 1,
     y: 0,
     rotateX: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.1, 0.15, 1] },
+    transition: { duration: 0.6, ease: "easeOut" },
   },
 };
 
 export function GoldLetters({ text }: { text: string }) {
+  const words = text.split(" ");
   return (
     <motion.span
       variants={letterContainerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="relative inline-block"
+      className="relative inline"
       style={{ perspective: 400 }}
     >
-      {text.split("").map((char, i) => (
-        <motion.span
-          key={i}
-          variants={letterVariants}
-          className="relative inline-block font-bold bg-gradient-to-b from-[#F3DE8A] via-brass-400 to-[#8A6A22] bg-clip-text text-transparent"
-          style={{
-            textShadow: "0 0 18px rgba(184,151,62,0.35)",
-          }}
+      {words.map((word, wi) => (
+        <span
+          key={wi}
+          className="relative inline-block"
+          style={{ whiteSpace: "nowrap" }}
         >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
+          {word.split("").map((char, i) => (
+            <motion.span
+              key={i}
+              variants={letterVariants}
+              className="relative inline-block font-bold bg-gradient-to-b from-[#F3DE8A] via-brass-400 to-[#8A6A22] bg-clip-text text-transparent"
+              style={{
+                textShadow: "0 0 18px rgba(184,151,62,0.35)",
+              }}
+            >
+              {char}
+            </motion.span>
+          ))}
+          {wi < words.length - 1 ? " " : ""}
+        </span>
       ))}
       {/* Sweeping shine pass over the finished letters */}
       <motion.span
@@ -174,20 +158,6 @@ export function GoldLetters({ text }: { text: string }) {
 
 export function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Auto-rotate banners
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % bannerImages.length);
-        setIsTransitioning(false);
-      }, 1000);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Mouse parallax
   const x = useMotionValue(0);
@@ -213,16 +183,7 @@ export function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [x, y]);
 
-  const goToSlide = (index: number) => {
-    if (index === currentImageIndex) return;
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentImageIndex(index);
-      setIsTransitioning(false);
-    }, 1000);
-  };
-
-  const current = bannerImages[currentImageIndex];
+  const current = bannerImages[0];
 
   // WhatsApp contact
   const whatsappNumber = "917090967411";
@@ -237,43 +198,16 @@ export function Hero() {
         backgroundColor: "#0a0d0c",
       }}
     >
-      {/* --- Background Media with Cinematic Zoom (image or video) --- */}
-      <AnimatePresence mode="wait">
-        {current.type === "video" ? (
-          <motion.video
-            key={currentImageIndex}
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={current.poster ?? current.url}
-            initial={{ scale: 1.15, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.12 }}
-            exit={{ scale: 1.15, opacity: 0 }}
-            transition={{ duration: 2.5, ease: [0.25, 0.1, 0.15, 1] }}
-            className="absolute inset-0 z-0 h-full w-full object-cover"
-          >
-            <source src={current.videoUrl} type="video/mp4" />
-          </motion.video>
-        ) : (
-          <motion.div
-            key={currentImageIndex}
-            initial={{ scale: 1.15, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.1 }}
-            exit={{ scale: 1.15, opacity: 0 }}
-            transition={{
-              duration: 2.5,
-              ease: [0.25, 0.1, 0.15, 1],
-            }}
-            className="absolute inset-0 z-0"
-            style={{
-              backgroundImage: `url(${current.url})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-        )}
-      </AnimatePresence>
+      {/* --- Background Media --- */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${current.url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.1,
+        }}
+      />
 
       {/* --- Gradient Overlay --- */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-forest-950/95 via-forest-950/85 to-forest-950/95" />
@@ -347,7 +281,7 @@ export function Hero() {
         transition={{
           duration: 0.6,
           delay: 1.5,
-          ease: [0.25, 0.1, 0.15, 1],
+          ease: "easeOut",
         }}
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 shadow-2xl transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(37,211,102,0.3)] md:bottom-8 md:right-8 md:px-5"
       >
@@ -369,7 +303,7 @@ export function Hero() {
       </motion.a>
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 py-20 md:px-16 md:py-28">
-        <div className="grid w-full items-center gap-16 md:grid-cols-2">
+        <div className="grid w-full items-start gap-16 md:grid-cols-2">
           {/* --- LEFT: CONTENT --- */}
           <motion.div
             variants={containerVariants}
@@ -389,7 +323,7 @@ export function Hero() {
             {/* Main Heading with animated Gold Letters */}
             <motion.h1
               variants={itemVariants}
-              className={`${playfair.className} text-balance text-[54px] italic font-bold leading-[1.08] text-white md:text-[72px] lg:text-[90px]`}
+              className={`${playfair.className} text-balance text-[36px] italic font-bold leading-[1.1] text-white sm:text-[46px] md:text-[64px] lg:text-[90px]`}
             >
               Shirts designed for
               <br />
@@ -538,159 +472,65 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* --- RIGHT: BANNER SLIDER (image or video) --- */}
+          {/* --- RIGHT: ALL 10 LOOKS, STATIC GRID --- */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, rotate: -1 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{
-              duration: 1.5,
-              ease: [0.25, 0.1, 0.15, 1],
-              delay: 0.5,
+              duration: 1.2,
+              ease: "easeOut",
+              delay: 0.3,
             }}
             className="relative"
           >
-            <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-2xl">
-              {/* Gold Frame */}
-              <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-brass-400/30 via-brass-400/10 to-brass-400/30 opacity-50" />
-
-              {/* Banner Media Container */}
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-forest-900">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentImageIndex}
-                    initial={{ scale: 1.2, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 1.2, opacity: 0 }}
-                    transition={{
-                      duration: 1.5,
-                      ease: [0.25, 0.1, 0.15, 1],
+            <div className="relative mx-auto w-full max-w-md">
+              <div className="grid grid-cols-3 gap-2.5">
+                {bannerImages.map((image) => (
+                  <div
+                    key={image.id}
+                    className="group relative overflow-hidden rounded-xl"
+                    style={{
+                      aspectRatio: "3 / 4",
+                      border: "1px solid rgba(201,168,76,0.35)",
+                      boxShadow: "0 14px 34px rgba(0,0,0,0.45)",
+                      background: "#0d130f",
+                      transition: "transform 0.4s cubic-bezier(0.25,0.1,0.15,1), box-shadow 0.4s ease",
                     }}
-                    className="absolute inset-0"
-                  >
-                    {current.type === "video" ? (
-                      <video
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        poster={current.poster ?? current.url}
-                        className="h-full w-full object-cover"
-                      >
-                        <source src={current.videoUrl} type="video/mp4" />
-                      </video>
-                    ) : (
-                      <img
-                        src={current.url}
-                        alt={current.title}
-                        className="h-full w-full object-cover"
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-forest-950/30 to-transparent" />
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Banner Content Overlay */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`content-${currentImageIndex}`}
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -30, opacity: 0 }}
-                    transition={{
-                      duration: 0.8,
-                      delay: 0.4,
-                      ease: [0.25, 0.1, 0.15, 1],
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-6px)";
+                      e.currentTarget.style.boxShadow = "0 20px 45px rgba(0,0,0,0.55)";
                     }}
-                    className="absolute bottom-0 left-0 right-0 p-6"
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "0 14px 34px rgba(0,0,0,0.45)";
+                    }}
                   >
-                    <h3
-                      className={`${cormorant.className} text-[36px] font-bold italic text-white`}
-                    >
-                      {current.title}
-                    </h3>
+                    <img
+                      src={image.url}
+                      alt={image.title}
+                      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                    />
+
+                    {/* Gold sheen sweep on hover */}
+                    <div
+                      className="pointer-events-none absolute inset-0 z-10 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+                      style={{ mixBlendMode: "overlay" }}
+                    />
+                    <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-forest-950/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                    <div className="absolute left-1.5 top-1.5 z-20 h-3 w-3 border-l border-t border-brass-400/60" />
+                    <div className="absolute right-1.5 top-1.5 z-20 h-3 w-3 border-r border-t border-brass-400/60" />
+                    <div className="absolute bottom-1.5 left-1.5 z-20 h-3 w-3 border-l border-b border-brass-400/60" />
+                    <div className="absolute bottom-1.5 right-1.5 z-20 h-3 w-3 border-r border-b border-brass-400/60" />
+
                     <p
-                      className={`${cinzel.className} mt-1 text-[15px] font-bold uppercase tracking-[0.2em] text-brass-400`}
+                      className={`${cinzel.className} pointer-events-none absolute bottom-2 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.2em] text-brass-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
                     >
-                      {current.description}
+                      {image.title}
                     </p>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Gold Accent Corners */}
-                <div className="absolute left-3 top-3 h-6 w-6 border-l border-t border-brass-400/20" />
-                <div className="absolute right-3 top-3 h-6 w-6 border-r border-t border-brass-400/20" />
-                <div className="absolute bottom-3 left-3 h-6 w-6 border-l border-b border-brass-400/20" />
-                <div className="absolute bottom-3 right-3 h-6 w-6 border-r border-b border-brass-400/20" />
-              </div>
-
-              {/* --- Slider Controls --- */}
-              <div className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-                {bannerImages.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={`h-[2px] rounded-full transition-all duration-700 ${
-                      index === currentImageIndex
-                        ? "w-10 bg-brass-400"
-                        : "w-4 bg-brass-500/20 hover:bg-brass-500/40"
-                    }`}
-                  />
+                  </div>
                 ))}
               </div>
-
-              {/* Navigation Arrows */}
-              <button
-                onClick={() =>
-                  goToSlide(
-                    (currentImageIndex - 1 + bannerImages.length) %
-                      bannerImages.length
-                  )
-                }
-                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-forest-950/70 p-2 text-brass-400/60 backdrop-blur-sm transition hover:bg-forest-950/90 hover:text-brass-400"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
-              </button>
-              <button
-                onClick={() =>
-                  goToSlide((currentImageIndex + 1) % bannerImages.length)
-                }
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-forest-950/70 p-2 text-brass-400/60 backdrop-blur-sm transition hover:bg-forest-950/90 hover:text-brass-400"
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-            </div>
-
-            {/* --- Slide Counter --- */}
-            <div className="mt-8 text-center">
-              <p
-                className={`${cinzel.className} text-[15px] font-bold tracking-[0.4em] text-brass-400/70`}
-              >
-                {String(currentImageIndex + 1).padStart(2, "0")} /{" "}
-                {String(bannerImages.length).padStart(2, "0")}
-              </p>
             </div>
           </motion.div>
         </div>
@@ -879,7 +719,7 @@ export function About() {
               <div className="h-px w-8 bg-brass-400/50" />
             </div>
             <h2
-              className={`${playfair.className} text-balance text-[45px] italic font-bold leading-tight text-white md:text-[54px] lg:text-[72px]`}
+              className={`${playfair.className} text-balance text-[32px] italic font-bold leading-tight text-white sm:text-[40px] md:text-[54px] lg:text-[72px]`}
             >
               <GoldLetters text="Crafted for Men Who" />
               <br />
