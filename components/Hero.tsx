@@ -36,7 +36,7 @@ const inter = Inter({
   display: "swap",
 });
 
-// Banner media — local images only, 1G.jpeg through 10G.jpeg from /public
+// Banner media — local images only, 1G.jpeg through 9G.jpeg from /public
 type BannerItem = {
   id: number;
   type: "image";
@@ -54,7 +54,6 @@ const bannerImages: BannerItem[] = [
   { id: 7, type: "image", url: "/7G.jpeg", title: "Look 07" },
   { id: 8, type: "image", url: "/8G.jpeg", title: "Look 08" },
   { id: 9, type: "image", url: "/9G.jpeg", title: "Look 09" },
-  { id: 10, type: "image", url: "/10G.jpeg", title: "Look 10" },
 ];
 
 // Stagger animation config
@@ -376,103 +375,10 @@ export function Hero() {
                 <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                 <span className="absolute inset-0 rounded-full border border-white/20" />
               </a>
-              <a
-                href="#craft"
-                className={`${inter.className} group relative text-[21px] font-bold text-brass-400 transition-all duration-300 hover:text-white`}
-              >
-                Discover How They're Made
-                <span className="absolute -bottom-0.5 left-0 h-px w-0 bg-brass-400 transition-all duration-300 group-hover:w-full" />
-              </a>
-            </motion.div>
-
-            {/* --- STATS --- */}
-            <motion.dl
-              variants={itemVariants}
-              className="grid max-w-sm grid-cols-3 gap-4 border-t border-brass-500/15 pt-6"
-            >
-              {[
-                { label: "Limited Runs Per Year", value: "4" },
-                { label: "Shirts Per Run", value: "60" },
-                { label: "Stitches Per Inch", value: "14" },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <dt
-                    className={`${cinzel.className} text-[12px] font-bold uppercase tracking-[0.25em] text-white/70`}
-                  >
-                    {stat.label}
-                  </dt>
-                  <dd
-                    className={`${playfair.className} mt-1 text-[36px] font-bold text-brass-400`}
-                  >
-                    {stat.value}
-                  </dd>
-                </div>
-              ))}
-            </motion.dl>
-
-            {/* --- EXCLUSIVITY MARKER --- */}
-            <motion.div
-              variants={itemVariants}
-              className={`${cinzel.className} flex flex-wrap items-center gap-2 pt-2 text-[12px] font-bold tracking-[0.25em] text-brass-400`}
-            >
-              <span className="text-brass-400">✦</span>
-              Edition of 60 · Certificate of Authenticity
-              <span className="text-brass-400">✦</span>
-            </motion.div>
-
-            {/* --- Contact Info --- */}
-            <motion.div
-              variants={itemVariants}
-              className="flex items-center gap-4 pt-2"
-            >
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center gap-2 rounded-full border border-brass-400/20 px-4 py-2 transition-all hover:border-brass-400/50 hover:bg-brass-500/5"
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="#25D366"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-                <span
-                  className={`${cinzel.className} text-[15px] font-bold uppercase tracking-[0.15em] text-white/80 transition group-hover:text-white`}
-                >
-                  +91 70909 67411
-                </span>
-              </a>
-              <span className="h-4 w-px bg-brass-500/20" />
-              <a
-                href="mailto:info@Greengrand.in"
-                className={`${cinzel.className} text-[14px] font-bold uppercase tracking-[0.15em] text-white/60 transition hover:text-white`}
-              >
-                info@Greengrand.in
-              </a>
-            </motion.div>
-
-            {/* --- SEO Keywords --- */}
-            <motion.div
-              variants={itemVariants}
-              className={`${cinzel.className} flex flex-wrap gap-3 pt-2 text-[11px] font-bold uppercase tracking-[0.2em] text-brass-400/40`}
-            >
-              <span>Premium Men's Shirts in Bengaluru</span>
-              <span className="text-brass-400/40">·</span>
-              <span>Limited-Edition Shirts</span>
-              <span className="text-brass-400/40">·</span>
-              <span>Long-Staple Cotton Shirts</span>
-              <span className="text-brass-400/40">·</span>
-              <span>Washed Linen Shirts</span>
-              <span className="text-brass-400/40">·</span>
-              <span>Hand-Finished Menswear</span>
             </motion.div>
           </motion.div>
 
-          {/* --- RIGHT: ALL 10 LOOKS, STATIC GRID --- */}
+          {/* --- RIGHT: ALL 9 LOOKS, STATIC GRID --- */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95, rotate: -1 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
