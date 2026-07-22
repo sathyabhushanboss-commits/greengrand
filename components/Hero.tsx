@@ -53,6 +53,7 @@ const bannerImages: BannerItem[] = [
   { id: 6, type: "image", url: "/6G.jpeg", title: "Look 06" },
   { id: 7, type: "image", url: "/7G.jpeg", title: "Look 07" },
   { id: 8, type: "image", url: "/8G.jpeg", title: "Look 08" },
+  { id: 9, type: "image", url: "/9G.jpeg", title: "Look 09" },
 ];
 
 // Stagger animation config
@@ -109,6 +110,21 @@ const gridItemVariants: Variants = {
     transition: {
       delay: 0.2 + i * 0.08,
       duration: 0.7,
+      ease: "easeOut",
+    },
+  }),
+};
+
+// Craft card variants for staggered animation
+const craftCardVariants: Variants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: 0.1 + i * 0.15,
+      duration: 0.6,
       ease: "easeOut",
     },
   }),
@@ -495,27 +511,27 @@ export function Hero() {
   );
 }
 
-// --- Craft / Tailoring gallery images ---
-const craftImages = [
+// --- Craft cards data ---
+const craftItems = [
   {
-    url: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=1200&q=80",
     title: "Hand Tailoring",
     detail: "Every seam checked and finished by hand.",
+    icon: "✂️",
   },
   {
-    url: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1200&q=80",
     title: "Precision Cutting",
     detail: "Fabric cut to exact pattern lines for a clean fit.",
+    icon: "📐",
   },
   {
-    url: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=1200&q=80",
     title: "Fine Stitching",
     detail: "Fourteen stitches per inch for lasting strength.",
+    icon: "🧵",
   },
   {
-    url: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1200&q=80",
     title: "Fabric Selection",
     detail: "Long-staple cotton and washed linen, sourced with care.",
+    icon: "👔",
   },
 ];
 
@@ -709,7 +725,7 @@ export function About() {
             </p>
           </motion.div>
 
-          {/* --- Craft / Tailoring Gallery --- */}
+          {/* --- Craft / Tailoring Cards with Loop Animation --- */}
           <motion.div
             variants={itemVariants}
             className="space-y-8 border-t border-brass-500/15 pt-12"
@@ -719,35 +735,73 @@ export function About() {
             >
               The Craft Behind Every Shirt
             </p>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {craftImages.map((img) => (
-                <div
-                  key={img.title}
-                  className="group relative aspect-[3/4] overflow-hidden rounded-xl border border-brass-400/20"
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              {craftItems.map((item, index) => (
+                <motion.div
+                  key={item.title}
+                  custom={index}
+                  variants={craftCardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.2 }}
+                  whileHover={{
+                    scale: 1.03,
+                    transition: { duration: 0.3, ease: "easeOut" },
+                  }}
+                  className="group relative overflow-hidden rounded-xl border border-brass-400/20 bg-gradient-to-br from-forest-900/50 to-forest-950/50 p-6 transition-all duration-300 hover:border-brass-400/60 hover:shadow-[0_0_30px_rgba(184,151,62,0.15)]"
                 >
-                  <img
-                    src={img.url}
-                    alt={img.title}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  {/* Animated background glow */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    style={{
+                      background: "radial-gradient(circle at center, rgba(184,151,62,0.08), transparent 70%)",
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-3">
-                    <p
-                      className={`${playfair.className} text-[18px] font-bold italic text-white`}
-                    >
-                      {img.title}
-                    </p>
-                    <p
-                      className={`${cormorant.className} mt-1 text-[13px] font-bold leading-snug text-brass-400`}
-                    >
-                      {img.detail}
-                    </p>
-                  </div>
-                  <div className="absolute left-2 top-2 h-4 w-4 border-l border-t border-brass-400/50" />
-                  <div className="absolute right-2 top-2 h-4 w-4 border-r border-t border-brass-400/50" />
-                  <div className="absolute bottom-2 left-2 h-4 w-4 border-l border-b border-brass-400/50" />
-                  <div className="absolute bottom-2 right-2 h-4 w-4 border-r border-b border-brass-400/50" />
-                </div>
+
+                  {/* Icon with animation */}
+                  <motion.div
+                    className="mb-4 text-4xl"
+                    whileHover={{
+                      scale: 1.2,
+                      rotate: 5,
+                      transition: { duration: 0.3 },
+                    }}
+                  >
+                    {item.icon}
+                  </motion.div>
+
+                  {/* Title with gold gradient */}
+                  <motion.h3
+                    className={`${playfair.className} text-[24px] font-bold italic text-white transition-colors duration-300 group-hover:text-brass-400`}
+                  >
+                    {item.title}
+                  </motion.h3>
+
+                  {/* Detail text */}
+                  <motion.p
+                    className={`${cormorant.className} mt-2 text-[18px] font-bold leading-relaxed text-white/80 transition-colors duration-300 group-hover:text-white/90`}
+                  >
+                    {item.detail}
+                  </motion.p>
+
+                  {/* Decorative corner lines */}
+                  <div className="absolute left-3 top-3 h-5 w-5 border-l border-t border-brass-400/30 transition-all duration-300 group-hover:border-brass-400/60" />
+                  <div className="absolute right-3 top-3 h-5 w-5 border-r border-t border-brass-400/30 transition-all duration-300 group-hover:border-brass-400/60" />
+                  <div className="absolute bottom-3 left-3 h-5 w-5 border-l border-b border-brass-400/30 transition-all duration-300 group-hover:border-brass-400/60" />
+                  <div className="absolute bottom-3 right-3 h-5 w-5 border-r border-b border-brass-400/30 transition-all duration-300 group-hover:border-brass-400/60" />
+
+                  {/* Shimmer effect on hover */}
+                  <motion.div
+                    className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent"
+                    whileHover={{
+                      x: "100%",
+                      transition: { duration: 0.8, ease: "easeInOut" },
+                    }}
+                  />
+                </motion.div>
               ))}
             </div>
           </motion.div>
