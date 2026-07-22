@@ -100,6 +100,21 @@ const letterVariants: Variants = {
   },
 };
 
+// Image grid item variants for staggered animation
+const gridItemVariants: Variants = {
+  hidden: { opacity: 0, y: 30, scale: 0.9 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: 0.2 + i * 0.08,
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  }),
+};
+
 export function GoldLetters({ text }: { text: string }) {
   const words = text.split(" ");
   return (
@@ -378,10 +393,10 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* --- RIGHT: ALL 9 LOOKS, STATIC GRID --- */}
+          {/* --- RIGHT: ALL 9 LOOKS, 2-COLUMN GRID WITH ANIMATIONS --- */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, rotate: -1 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{
               duration: 1.2,
               ease: "easeOut",
@@ -390,51 +405,87 @@ export function Hero() {
             className="relative"
           >
             <div className="relative mx-auto w-full max-w-md">
-              <div className="grid grid-cols-3 gap-2.5">
-                {bannerImages.map((image) => (
-                  <div
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
+                {bannerImages.map((image, index) => (
+                  <motion.div
                     key={image.id}
+                    custom={index}
+                    variants={gridItemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    whileHover={{
+                      scale: 1.05,
+                      transition: { duration: 0.3, ease: "easeOut" },
+                    }}
                     className="group relative overflow-hidden rounded-xl"
                     style={{
                       aspectRatio: "3 / 4",
                       border: "1px solid rgba(201,168,76,0.35)",
                       boxShadow: "0 14px 34px rgba(0,0,0,0.45)",
                       background: "#0d130f",
-                      transition: "transform 0.4s cubic-bezier(0.25,0.1,0.15,1), box-shadow 0.4s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = "translateY(-6px)";
-                      e.currentTarget.style.boxShadow = "0 20px 45px rgba(0,0,0,0.55)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = "translateY(0)";
-                      e.currentTarget.style.boxShadow = "0 14px 34px rgba(0,0,0,0.45)";
                     }}
                   >
-                    <img
+                    <motion.img
                       src={image.url}
                       alt={image.title}
-                      className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                      className="h-full w-full object-contain"
+                      whileHover={{
+                        scale: 1.1,
+                        transition: { duration: 0.5, ease: "easeOut" },
+                      }}
                     />
 
                     {/* Gold sheen sweep on hover */}
-                    <div
-                      className="pointer-events-none absolute inset-0 z-10 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+                    <motion.div
+                      className="pointer-events-none absolute inset-0 z-10 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent"
                       style={{ mixBlendMode: "overlay" }}
+                      whileHover={{
+                        x: "100%",
+                        transition: { duration: 0.7, ease: "easeInOut" },
+                      }}
                     />
-                    <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-forest-950/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                    
+                    <motion.div 
+                      className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-forest-950/70 via-transparent to-transparent"
+                      initial={{ opacity: 0 }}
+                      whileHover={{
+                        opacity: 1,
+                        transition: { duration: 0.3 },
+                      }}
+                    />
 
+                    {/* Corner decorations */}
                     <div className="absolute left-1.5 top-1.5 z-20 h-3 w-3 border-l border-t border-brass-400/60" />
                     <div className="absolute right-1.5 top-1.5 z-20 h-3 w-3 border-r border-t border-brass-400/60" />
                     <div className="absolute bottom-1.5 left-1.5 z-20 h-3 w-3 border-l border-b border-brass-400/60" />
                     <div className="absolute bottom-1.5 right-1.5 z-20 h-3 w-3 border-r border-b border-brass-400/60" />
 
-                    <p
-                      className={`${cinzel.className} pointer-events-none absolute bottom-2 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.2em] text-brass-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100`}
+                    {/* Title that appears on hover */}
+                    <motion.p
+                      className={`${cinzel.className} pointer-events-none absolute bottom-3 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold uppercase tracking-[0.2em] text-brass-400`}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileHover={{
+                        opacity: 1,
+                        y: 0,
+                        transition: { duration: 0.3, delay: 0.1 },
+                      }}
                     >
                       {image.title}
-                    </p>
-                  </div>
+                    </motion.p>
+
+                    {/* Glow effect on hover */}
+                    <motion.div
+                      className="pointer-events-none absolute inset-0 z-0"
+                      initial={{ opacity: 0 }}
+                      whileHover={{
+                        opacity: 0.5,
+                        transition: { duration: 0.3 },
+                      }}
+                      style={{
+                        background: "radial-gradient(circle at center, rgba(184,151,62,0.3), transparent 70%)",
+                      }}
+                    />
+                  </motion.div>
                 ))}
               </div>
             </div>
