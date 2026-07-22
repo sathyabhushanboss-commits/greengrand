@@ -53,7 +53,6 @@ const bannerImages: BannerItem[] = [
   { id: 6, type: "image", url: "/6G.jpeg", title: "Look 06" },
   { id: 7, type: "image", url: "/7G.jpeg", title: "Look 07" },
   { id: 8, type: "image", url: "/8G.jpeg", title: "Look 08" },
-  { id: 9, type: "image", url: "/9G.jpeg", title: "Look 09" },
 ];
 
 // Stagger animation config
