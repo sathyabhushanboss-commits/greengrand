@@ -1,20 +1,23 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Image from "next/image";
 
 const WHATSAPP_NUMBER = "917090967411"; // country code + number, no spaces or symbols
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const text = `Hello, my name is ${name}.%0A%0A${encodeURIComponent(
-      message
-    )}`;
+    const text = encodeURIComponent(
+      `Hello, my name is ${name}.\n\nPhone: ${phone}\nEmail: ${email}\n\n${message}`
+    );
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
 
@@ -22,6 +25,8 @@ export function Header() {
 
     setIsOpen(false);
     setName("");
+    setPhone("");
+    setEmail("");
     setMessage("");
   }
 
@@ -29,7 +34,15 @@ export function Header() {
     <>
       <header className="sticky top-0 z-50 border-b border-brass-500/15 bg-forest-900/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 md:px-16">
-          <a href="#top" className="font-display text-xl tracking-wide text-ivory">
+          <a href="#top" className="flex items-center gap-2 font-display text-xl tracking-wide text-ivory">
+            <Image
+              src="/logo_header.png"
+              alt="Greengrand logo"
+              width={36}
+              height={36}
+              className="h-9 w-9 object-contain"
+              priority
+            />
             Greengrand
           </a>
           <nav className="hidden gap-8 text-sm text-sage md:flex">
@@ -57,12 +70,19 @@ export function Header() {
             className="w-full max-w-md rounded-2xl border border-brass-500/20 bg-forest-900 p-6 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-4 flex items-center gap-3">
+              <Image
+                src="/logo_header.png"
+                alt="Greengrand logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 object-contain"
+              />
               <h2 className="font-display text-lg text-ivory">Contact Us</h2>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="text-sage transition hover:text-ivory"
+                className="ml-auto text-sage transition hover:text-ivory"
                 aria-label="Close"
               >
                 ✕
@@ -82,6 +102,36 @@ export function Header() {
                   onChange={(e) => setName(e.target.value)}
                   className="w-full rounded-lg border border-brass-500/30 bg-forest-900 px-3 py-2 text-sm text-ivory outline-none transition focus:border-brass-400"
                   placeholder="Your name"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="phone" className="mb-1 block text-sm text-sage">
+                  Phone Number
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full rounded-lg border border-brass-500/30 bg-forest-900 px-3 py-2 text-sm text-ivory outline-none transition focus:border-brass-400"
+                  placeholder="+91 98765 43210"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="email" className="mb-1 block text-sm text-sage">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full rounded-lg border border-brass-500/30 bg-forest-900 px-3 py-2 text-sm text-ivory outline-none transition focus:border-brass-400"
+                  placeholder="you@gmail.com"
                 />
               </div>
 
