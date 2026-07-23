@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Phone, Mail, MapPin } from "lucide-react";
 
 export function Footer() {
@@ -8,7 +9,16 @@ export function Footer() {
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
           <div>
-            <p className="font-display text-[30px] text-forest-950">Greengrand</p>
+            <div className="flex items-center gap-3">
+              <Image
+                src="/logo_footer.png"
+                alt="Greengrand Shirt Co."
+                width={48}
+                height={48}
+                className="h-10 w-10 object-contain"
+              />
+              <p className="font-display text-[30px] text-forest-950">Greengrand</p>
+            </div>
             <p className="mt-3 max-w-xs text-[20px] leading-relaxed text-forest-950/80">
               A shirt manufacturing company in Bengaluru, crafting custom
               and wholesale shirts. Four releases a year, sixty pieces
