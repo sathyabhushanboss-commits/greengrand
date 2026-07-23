@@ -141,24 +141,26 @@ export function GoldLetters({ text }: { text: string }) {
       style={{ perspective: 400 }}
     >
       {words.map((word, wi) => (
-        <span
-          key={wi}
-          className="relative inline-block"
-          style={{ whiteSpace: "nowrap" }}
-        >
-          {word.split("").map((char, i) => (
-            <motion.span
-              key={i}
-              variants={letterVariants}
-              className="relative inline-block font-bold bg-gradient-to-b from-[#F3DE8A] via-brass-400 to-[#8A6A22] bg-clip-text text-transparent"
-              style={{
-                textShadow: "0 0 18px rgba(184,151,62,0.35)",
-              }}
-            >
-              {char}
-            </motion.span>
-          ))}
-          {wi < words.length - 1 ? " " : ""}
+        <span key={wi} className="relative inline-block" style={{ whiteSpace: "nowrap" }}>
+          <span className="relative inline-block">
+            {word.split("").map((char, i) => (
+              <motion.span
+                key={i}
+                variants={letterVariants}
+                className="relative inline-block font-bold bg-gradient-to-b from-[#F3DE8A] via-brass-400 to-[#8A6A22] bg-clip-text text-transparent"
+                style={{
+                  textShadow: "0 0 18px rgba(184,151,62,0.35)",
+                }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </span>
+          {wi < words.length - 1 && (
+            <span className="inline-block" style={{ width: "0.32em" }} aria-hidden>
+              &nbsp;
+            </span>
+          )}
         </span>
       ))}
       {/* Sweeping shine pass over the finished letters */}
