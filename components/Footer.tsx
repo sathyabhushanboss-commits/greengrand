@@ -1,6 +1,6 @@
 "use client";
 
-import { Phone, Mail } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -10,17 +10,24 @@ export function Footer() {
           <div>
             <p className="font-display text-[30px] text-forest-950">Greengrand</p>
             <p className="mt-3 max-w-xs text-[20px] leading-relaxed text-forest-950/80">
-              Small-run shirts cut in Bengaluru. Four releases a year,
-              sixty pieces each, one palette throughout.
+              A shirt manufacturing company in Bengaluru, crafting custom
+              and wholesale shirts. Four releases a year, sixty pieces
+              each, one palette throughout.
             </p>
           </div>
 
           <div>
             <p className="text-[17px] uppercase tracking-widest text-forest-950/70">Shop</p>
             <ul className="mt-4 space-y-2 text-[21px] text-forest-950">
-              <li><a href="#collection" className="hover:text-ivory">Collection</a></li>
-              <li><a href="#fit" className="hover:text-ivory">Fit guide</a></li>
-              <li><a href="#craft" className="hover:text-ivory">Materials</a></li>
+              <li>
+                <a href="#collection" className="hover:text-ivory">Collection</a>
+              </li>
+              <li>
+                <a href="#fit" className="hover:text-ivory">Fit guide</a>
+              </li>
+              <li>
+                <a href="#craft" className="hover:text-ivory">Materials</a>
+              </li>
             </ul>
           </div>
 
@@ -37,6 +44,21 @@ export function Footer() {
                 <a href="mailto:greengrandshirt@gmail.com" className="flex items-center gap-2 hover:text-ivory">
                   <Mail className="h-5 w-5 shrink-0" />
                   greengrandshirt@gmail.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.google.com/search?client=ms-android-motorola-rvo3&sca_esv=f77d92cfd20089c4&sxsrf=APpeQntsINAYs7sO4pdCQTsP2MWuomu6rQ:1784812622241&q=green+grand+shirts+bengaluru+address&ludocid=10931045372678644387&sa=X&ved=2ahUKEwjHgNuS8eiVAxUnbWwGHd5cB24Q6BN6BAgeEAI"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-2 hover:text-ivory"
+                >
+                  <MapPin className="h-5 w-5 shrink-0 mt-1" />
+                  <span>
+                    110, 1st Main Road, 1st Cross, Vishwaneedom Post,
+                    opp. Mohan Theatre, Hegganahalli Cross,
+                    Lakshman Nagar, Bengaluru, Karnataka 560091
+                  </span>
                 </a>
               </li>
             </ul>
