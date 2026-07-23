@@ -35,11 +35,11 @@ export function Collection() {
               transition={{ duration: 0.55, delay: (index % 8) * 0.06, ease: [0.25, 0.1, 0.15, 1] }}
               whileHover={{ y: -6 }}
               onClick={() => setSelectedImage(src)}
-              className="group card-seam relative h-80 w-full cursor-pointer overflow-hidden rounded-sm bg-forest-800 transition-shadow duration-500 hover:shadow-2xl hover:shadow-brass-500/10"
+              className="group card-seam relative aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-sm bg-forest-800 transition-shadow duration-500 hover:shadow-2xl hover:shadow-brass-500/10"
             >
               <motion.div
                 className="h-full w-full"
-                whileHover={{ scale: 1.08 }}
+                whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.6, ease: [0.25, 0.1, 0.15, 1] }}
               >
                 <Image
@@ -47,7 +47,7 @@ export function Collection() {
                   alt=""
                   fill
                   sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover object-center"
+                  className="object-contain object-center"
                 />
               </motion.div>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-forest-950/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -71,7 +71,7 @@ export function Collection() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.92, opacity: 0 }}
               transition={{ type: "spring", damping: 25 }}
-              className="relative h-[80vh] w-full max-w-3xl"
+              className="relative h-[85vh] w-full max-w-3xl"
               onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
             >
               <Image src={selectedImage} alt="" fill sizes="90vw" className="object-contain" />
