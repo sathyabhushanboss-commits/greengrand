@@ -232,32 +232,6 @@ export function FitGuide() {
               </tbody>
             </table>
           </div>
-
-          {/* Help Text with Gold Accent */}
-          <motion.div
-            variants={itemVariants}
-            className="mt-6 flex items-start gap-3 rounded-lg border border-brass-500/10 bg-forest-900/30 p-4 backdrop-blur-sm"
-          >
-            <span className="mt-0.5 text-brass-400">✦</span>
-            <p className={`${cormorant.className} text-[13px] font-light text-sage/70`}>
-              Between sizes, or building a first order?{" "}
-              <a
-                href="mailto:fit@Greengrand"
-                className="text-brass-400 transition hover:text-brass-300 hover:underline"
-              >
-                Write to fit@Greengrand
-              </a>
-              {" "}and we'll reply with a recommendation within a day.
-            </p>
-          </motion.div>
-
-          {/* Additional Note */}
-          <motion.p
-            variants={itemVariants}
-            className={`${cinzel.className} mt-4 text-[8px] uppercase tracking-[0.2em] text-sage/30`}
-          >
-            All measurements are body measurements in inches
-          </motion.p>
         </motion.div>
       </motion.div>
     </section>
